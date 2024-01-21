@@ -10,19 +10,19 @@ namespace SVS
     {
         private InputSystem inputActions;
         [SerializeField] private Camera gameCamera;
-        [SerializeField] private float cameraMovementSpeed = 10f;
+        [SerializeField] private float cameraMovementSpeed;
         [SerializeField] private Vector2 moveDir;
 
         [Header("Camera Zoom")]
-        [SerializeField] private float zoomSpeed = 10f;
-        [SerializeField] private float minZoom = 5f;
-        [SerializeField] private float maxZoom = 20f;
+        [SerializeField] private float zoomSpeed;
+        [SerializeField] private float minZoom;
+        [SerializeField] private float maxZoom;
         [SerializeField] private float currentZoom;
 
         [Header("Camera Rotation")]
-        [SerializeField] private float rotationSpeed = 10f;
-        [SerializeField] private float minRotation = 0f;
-        [SerializeField] private float maxRotation = 90f;
+        [SerializeField] private float rotationSpeed;
+        [SerializeField] private float minRotation;
+        [SerializeField] private float maxRotation;
         [SerializeField] private Vector2 currentRotation;
         [SerializeField] private float currentRotationX;
         [SerializeField] private bool isRotating;
@@ -40,12 +40,12 @@ namespace SVS
             inputActions.Player.Rotate.canceled += ctx => isRotating = false;
             inputActions.Player.Look.performed += ctx => currentRotation = ctx.ReadValue<Vector2>();
             inputActions.Player.Look.canceled += ctx => currentRotation = Vector2.zero;
-            inputActions.Enable();
+            inputActions.Player.Enable();
         }
 
         private void Start()
         {
-            currentZoom = gameCamera.transform.localPosition.y;
+            currentZoom = 45;
             currentRotationX = -50;
         }
 
@@ -61,23 +61,28 @@ namespace SVS
         /// </summary>
         private void RotateCamera()
         {
+            float mouseX;
             if (!isRotating)
+            {
+                mouseX = 0;
                 return;
-            currentRotationX += -currentRotation.y * rotationSpeed; 
-            currentRotationX = Mathf.Clamp(currentRotation.x, minRotation, maxRotation);
+            }
+            mouseX = currentRotation.x;
+            float mouseY = currentRotation.y;
+            currentRotationX += -mouseY * rotationSpeed; 
+            currentRotationX = Mathf.Clamp(currentRotationX, minRotation, maxRotation);
             transform.eulerAngles = new Vector3(currentRotationX,
-                transform.eulerAngles.y + (currentRotation.x * rotationSpeed), 0);
+                transform.eulerAngles.y + (mouseX * rotationSpeed), 0);
         }
 
-        //TODO: Fix zooming in and out when rotating the camera
         /// <summary>
         /// 
         /// </summary>
         private void ZoomCamera()
         {
             currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
-
-            gameCamera.transform.localPosition = Vector3.up * currentZoom;
+            if (!gameCamera.orthographic)
+                gameCamera.fieldOfView = currentZoom;
         }
 
         /// <summary>
