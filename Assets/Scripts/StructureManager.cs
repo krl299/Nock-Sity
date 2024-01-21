@@ -7,14 +7,14 @@ using UnityEngine;
 
 public class StructureManager : MonoBehaviour
 {
-    public StructurePrefabWeighted[] housesPrefabe, specialPrefabs, bigStructuresPrefabs;
+    public StructurePrefabWeighted[] housesPrefabs, specialPrefabs, bigStructuresPrefabs;
     public PlacementManager placementManager;
 
     private float[] houseWeights, specialWeights, bigStructureWeights;
 
     private void Start()
     {
-        houseWeights = housesPrefabe.Select(prefabStats => prefabStats.weight).ToArray();
+        houseWeights = housesPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
         specialWeights = specialPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
         bigStructureWeights = bigStructuresPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
     }
@@ -24,7 +24,7 @@ public class StructureManager : MonoBehaviour
         if (CheckPositionBeforePlacement(position))
         {
             int randomIndex = GetRandomWeightedIndex(houseWeights);
-            placementManager.PlaceObjectOnTheMap(position, housesPrefabe[randomIndex].prefab, CellType.Structure);
+            placementManager.PlaceObjectOnTheMap(position, housesPrefabs[randomIndex].prefab, CellType.Structure);
             AudioPlayer.instance.PlayPlacementSound();
         }
     }
