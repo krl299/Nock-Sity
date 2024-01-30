@@ -11,16 +11,29 @@ public class PlacementManager : MonoBehaviour
     private Dictionary<Vector3Int, StructureModels> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModels>();
     private Dictionary<Vector3Int, StructureModels> structureDictionary = new Dictionary<Vector3Int, StructureModels>();
 
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     private void Start()
     {
         placementGrid = new Grid(width, height);
     }
 
+    /// <summary>
+    /// Search adjacent cells type [left, top, right, down]
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns> Array of celltypes adjacent to given position </returns>
     internal CellType[] GetNeighbourTypesFor(Vector3Int position)
     {
         return placementGrid.GetAllAdjacentCellTypes(position.x, position.z);
     }
 
+    /// <summary>
+    /// Check if position is in bound
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     internal bool CheckIfPositionInBound(Vector3Int position)
     {
         if (position.x >= 0 && position.x < width && position.z >= 0 && position.z < height)
@@ -30,6 +43,14 @@ public class PlacementManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Add a new structure to the map and remove nature objects from the map
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="structurePrefab"></param>
+    /// <param name="type"></param>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
     internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, CellType type, int width = 1, int height = 1)
     {
         StructureModels structure = CreateANewStructureModel(position, structurePrefab, type);
@@ -46,6 +67,10 @@ public class PlacementManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Destroy nature objects at given position
+    /// </summary>
+    /// <param name="position"></param>
     private void DestroyNatureAt(Vector3Int position)
     {
         RaycastHit[] hits = Physics.BoxCastAll(position + new Vector3(0, 0.5f, 0), new Vector3(0.5f, 0.5f, 0.5f), transform.up, Quaternion.identity, 1f, 1 << LayerMask.NameToLayer("Nature"));
@@ -55,16 +80,33 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check if position is free
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     internal bool CheckIfPositionIsFree(Vector3Int position)
     {
         return CheckIfPositionIsOfType(position, CellType.Empty);
     }
 
+    /// <summary>
+    /// Check celltype at given position
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
     private bool CheckIfPositionIsOfType(Vector3Int position, CellType type)
     {
         return placementGrid[position.x, position.z] == type;
     }
 
+    /// <summary>
+    /// Previsualize the structure at given position
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="structurePrefab"></param>
+    /// <param name="type"></param>
     internal void PlaceTemporaryStructure(Vector3Int position, GameObject structurePrefab, CellType type)
     {
         placementGrid[position.x, position.z] = type;
@@ -72,6 +114,12 @@ public class PlacementManager : MonoBehaviour
         temporaryRoadobjects.Add(position, structure);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
     internal List<Vector3Int> GetNeighboursOfTypeFor(Vector3Int position, CellType type)
     {
         var neighbourVertices = placementGrid.GetAdjacentCellsOfType(position.x, position.z, type);
@@ -83,6 +131,13 @@ public class PlacementManager : MonoBehaviour
         return neighbours;
     }
 
+    /// <summary>
+    /// Create a new structure model
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="structurePrefab"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
     private StructureModels CreateANewStructureModel(Vector3Int position, GameObject structurePrefab, CellType type)
     {
         GameObject structure = new GameObject(type.ToString());
@@ -93,6 +148,12 @@ public class PlacementManager : MonoBehaviour
         return structureModel;
     }
 
+    /// <summary>
+    /// Previsualize the path between two positions
+    /// </summary>
+    /// <param name="startPosition"></param>
+    /// <param name="endPosition"></param>
+    /// <returns></returns>
     internal List<Vector3Int> GetPathBetween(Vector3Int startPosition, Vector3Int endPosition)
     {
         var resultPath = GridSearch.AStarSearch(placementGrid, new Point(startPosition.x, startPosition.z), new Point(endPosition.x, endPosition.z));
@@ -104,6 +165,9 @@ public class PlacementManager : MonoBehaviour
         return path;
     }
 
+    /// <summary>
+    /// Remove all temporary structures
+    /// </summary>
     internal void RemoveAllTemporaryStructures()
     {
         foreach (var structure in temporaryRoadobjects.Values)
@@ -115,6 +179,9 @@ public class PlacementManager : MonoBehaviour
         temporaryRoadobjects.Clear();
     }
 
+    /// <summary>
+    /// Add temporary structures to structure dictionary
+    /// </summary>
     internal void AddtemporaryStructuresToStructureDictionary()
     {
         foreach (var structure in temporaryRoadobjects)
@@ -125,6 +192,12 @@ public class PlacementManager : MonoBehaviour
         temporaryRoadobjects.Clear();
     }
 
+    /// <summary>
+    /// Modify structure model
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="newModel"></param>
+    /// <param name="rotation"></param>
     public void ModifyStructureModel(Vector3Int position, GameObject newModel, Quaternion rotation)
     {
         if (temporaryRoadobjects.ContainsKey(position))

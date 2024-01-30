@@ -27,6 +27,10 @@ namespace SVS
         [SerializeField] private float currentRotationX;
         [SerializeField] private bool isRotating;
 
+        /// <summary>
+        /// Awake is called when the script instance is being loaded.
+        /// It initializes the game camera, input actions, and sets up the event handlers for player actions siu.
+        /// </summary>
         private void Awake()
         {
             gameCamera = GetComponentInChildren<Camera>();
@@ -43,12 +47,21 @@ namespace SVS
             inputActions.Player.Enable();
         }
 
+        /// <summary>
+        /// Start is called before the first frame update.
+        /// It sets the initial zoom and rotation of the camera.
+        /// </summary>
         private void Start()
         {
             currentZoom = 45;
             currentRotationX = -50;
+
         }
 
+        /// <summary>
+        /// LateUpdate is called once per frame, after all Update functions have been called.
+        /// It moves, zooms, and rotates the camera.
+        /// </summary>
         private void LateUpdate()
         {
             MoveCamera(moveDir);
@@ -57,7 +70,7 @@ namespace SVS
         }
 
         /// <summary>
-        /// 
+        /// Rotates the camera based on mouse input.
         /// </summary>
         private void RotateCamera()
         {
@@ -69,14 +82,14 @@ namespace SVS
             }
             mouseX = currentRotation.x;
             float mouseY = currentRotation.y;
-            currentRotationX += -mouseY * rotationSpeed; 
+            currentRotationX += -mouseY * rotationSpeed;
             currentRotationX = Mathf.Clamp(currentRotationX, minRotation, maxRotation);
             transform.eulerAngles = new Vector3(currentRotationX,
                 transform.eulerAngles.y + (mouseX * rotationSpeed), 0);
         }
 
         /// <summary>
-        /// 
+        /// Adjusts the camera's zoom level.
         /// </summary>
         private void ZoomCamera()
         {
@@ -86,9 +99,9 @@ namespace SVS
         }
 
         /// <summary>
-        /// 
+        /// Moves the camera based on the input vector.
         /// </summary>
-        /// <param name="inputVector"></param>
+        /// <param name="inputVector">The input vector, where x represents horizontal movement and y represents vertical movement.</param>
         public void MoveCamera(Vector2 inputVector)
         {
             Vector3 forward = gameCamera.transform.forward;

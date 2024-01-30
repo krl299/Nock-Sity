@@ -16,11 +16,18 @@ public class RoadManager : MonoBehaviour
 
     public RoadFixer roadFixer;
 
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     private void Start()
     {
         roadFixer = GetComponent<RoadFixer>();
     }
 
+    /// <summary>
+    /// Place a road on the map
+    /// </summary>
+    /// <param name="position"></param>
     public void PlaceRoad(Vector3Int position)
     {
         if (placementManager.CheckIfPositionInBound(position) == false)
@@ -68,6 +75,9 @@ public class RoadManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Fix road prefabs after placement
+    /// </summary>
     private void FixRoadPrefabs()
     {
         foreach (var temporaryPosition in temporaryPlacementPositions)
@@ -88,6 +98,9 @@ public class RoadManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sound for placing a road
+    /// </summary>
     public void FinishPlacingRoad()
     {
         placementMode = false;

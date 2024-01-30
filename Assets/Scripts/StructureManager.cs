@@ -12,6 +12,9 @@ public class StructureManager : MonoBehaviour
 
     private float[] houseWeights, specialWeights, bigStructureWeights;
 
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     private void Start()
     {
         houseWeights = housesPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
@@ -19,6 +22,10 @@ public class StructureManager : MonoBehaviour
         bigStructureWeights = bigStructuresPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
     }
 
+    /// <summary>
+    /// Place a house on the map
+    /// </summary>
+    /// <param name="position"></param>
     public void PlaceHouse(Vector3Int position)
     {
         if (CheckPositionBeforePlacement(position))
@@ -29,6 +36,10 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Place a big structure on the map
+    /// </summary>
+    /// <param name="position"></param>
     internal void PlaceBigStructure(Vector3Int position)
     {
         int width = 2;
@@ -41,6 +52,13 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check if the big structure can be placed on the map
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <returns></returns>
     private bool CheckBigStructure(Vector3Int position, int width, int height)
     {
         bool nearRoad = false;
@@ -63,6 +81,10 @@ public class StructureManager : MonoBehaviour
         return nearRoad;
     }
 
+    /// <summary>
+    /// Place a special structure on the map
+    /// </summary>
+    /// <param name="position"></param>
     public void PlaceSpecial(Vector3Int position)
     {
         if (CheckPositionBeforePlacement(position))
@@ -73,6 +95,11 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Randomly choose a prefab based on the weights
+    /// </summary>
+    /// <param name="weights"></param>
+    /// <returns></returns>
     private int GetRandomWeightedIndex(float[] weights)
     {
         float sum = 0f;
@@ -95,6 +122,11 @@ public class StructureManager : MonoBehaviour
         return 0;
     }
 
+    /// <summary>
+    /// Check if the position is valid for placement
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     private bool CheckPositionBeforePlacement(Vector3Int position)
     {
         if (DefaultCheck(position) == false)
@@ -108,6 +140,11 @@ public class StructureManager : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Check if the position is near a road
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     private bool RoadCheck(Vector3Int position)
     {
         if (placementManager.GetNeighboursOfTypeFor(position, CellType.Road).Count <= 0)
@@ -118,6 +155,11 @@ public class StructureManager : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Check if the position is valid for placement
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     private bool DefaultCheck(Vector3Int position)
     {
         if (placementManager.CheckIfPositionInBound(position) == false)

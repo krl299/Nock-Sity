@@ -12,6 +12,9 @@ public class UIController : MonoBehaviour
     public Color outlineColor;
     List<Button> buttonList;
 
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     private void Start()
     {
         buttonList = new List<Button> { placeHouseButton, placeRoadButton, placeSpecialButton, placeBigStructureButton };
@@ -46,6 +49,10 @@ public class UIController : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Modify outline color of the button
+    /// </summary>
+    /// <param name="button"></param>
     private void ModifyOutline(Button button)
     {
         var outline = button.GetComponent<Outline>();
@@ -53,6 +60,9 @@ public class UIController : MonoBehaviour
         outline.enabled = true;
     }
 
+    /// <summary>
+    /// Reset outline color of the buttons
+    /// </summary>
     private void ResetButtonColor()
     {
         foreach (Button button in buttonList)

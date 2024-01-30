@@ -7,7 +7,7 @@ public class StructureModels : MonoBehaviour
     float yheight = 0;
 
     /// <summary>
-    /// 
+    /// Instantiate the model
     /// </summary>
     /// <param name="model"></param>
     public void CreateModel(GameObject model)
@@ -17,7 +17,7 @@ public class StructureModels : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Swap the model
     /// </summary>
     /// <param name="model"></param>
     /// <param name="rotation"></param>

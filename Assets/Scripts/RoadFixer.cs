@@ -9,7 +9,7 @@ public class RoadFixer : MonoBehaviour
     public GameObject roadStraight, roadCorner, roadT, roadCross, roadDeadEnd;
 
     /// <summary>
-    /// 
+    /// Fix the road at the given position
     /// </summary>
     /// <param name="placementManager"></param>
     /// <param name="tempPosition"></param>
@@ -33,7 +33,7 @@ public class RoadFixer : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Create a cross road
     /// </summary>
     /// <param name="placementManager"></param>
     /// <param name="result"></param>
@@ -44,7 +44,7 @@ public class RoadFixer : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Create a T road
     /// </summary>
     /// <param name="placementManager"></param>
     /// <param name="result"></param>
@@ -62,7 +62,7 @@ public class RoadFixer : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Create a corner road
     /// </summary>
     /// <param name="placementManager"></param>
     /// <param name="result"></param>
@@ -80,7 +80,7 @@ public class RoadFixer : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Create a straight road
     /// </summary>
     /// <param name="placementManager"></param>
     /// <param name="result"></param>
@@ -102,7 +102,7 @@ public class RoadFixer : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Create a dead end road
     /// </summary>
     /// <param name="placementManager"></param>
     /// <param name="result"></param>
