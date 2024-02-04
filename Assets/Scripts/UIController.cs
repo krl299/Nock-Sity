@@ -1,23 +1,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    public Action OnRoadPlacement, OnHousePlacement, OnSpecialPlacement, OnBigStructurePlacement;
-    public Button placeRoadButton, placeHouseButton, placeSpecialButton, placeBigStructureButton;
+    public Action OnRoadPlacement, OnHousePlacement, OnShopPlacement, OnBankPlacement, OnFarmPlacement, OnHospitalPlacement;
+    public Button placeRoadButton, placeHouseButton, placeShopButton, placeBankButton, placeFarmButton, placeHospitalButton;
+    public TextMeshProUGUI wood, metal, crystal, coin, food, time;
 
     public Color outlineColor;
     List<Button> buttonList;
+    List<TextMeshProUGUI> infoList;
 
     /// <summary>
     /// Start is called before the first frame update
     /// </summary>
     private void Start()
     {
-        buttonList = new List<Button> { placeHouseButton, placeRoadButton, placeSpecialButton, placeBigStructureButton };
+        buttonList = new List<Button> { placeHouseButton, placeRoadButton, placeShopButton, placeBankButton, placeFarmButton, placeHospitalButton };
+        infoList = new List<TextMeshProUGUI> { wood, metal, crystal, coin, food , time};
 
         placeRoadButton.onClick.AddListener(() =>
         {
@@ -33,18 +39,32 @@ public class UIController : MonoBehaviour
             OnHousePlacement?.Invoke();
 
         });
-        placeSpecialButton.onClick.AddListener(() =>
+        placeShopButton.onClick.AddListener(() =>
         {
             ResetButtonColor();
-            ModifyOutline(placeSpecialButton);
-            OnSpecialPlacement?.Invoke();
+            ModifyOutline(placeShopButton);
+            OnShopPlacement?.Invoke();
 
         });
-        placeBigStructureButton.onClick.AddListener(() =>
+        placeBankButton.onClick.AddListener(() =>
         {
             ResetButtonColor();
-            ModifyOutline(placeBigStructureButton);
-            OnBigStructurePlacement?.Invoke();
+            ModifyOutline(placeBankButton);
+            OnBankPlacement?.Invoke();
+
+        });
+        placeFarmButton.onClick.AddListener(() =>
+        {
+            ResetButtonColor();
+            ModifyOutline(placeFarmButton);
+            OnFarmPlacement?.Invoke();
+
+        });
+        placeHospitalButton.onClick.AddListener(() =>
+        {
+            ResetButtonColor();
+            ModifyOutline(placeHospitalButton);
+            OnHospitalPlacement?.Invoke();
 
         });
     }

@@ -40,14 +40,14 @@ public class StructureManager : MonoBehaviour
     /// Place a big structure on the map
     /// </summary>
     /// <param name="position"></param>
-    internal void PlaceBigStructure(Vector3Int position)
+    internal void PlaceBigStructure(Vector3Int position, int index)
     {
         int width = 2;
         int height = 2;
         if (CheckBigStructure(position, width, height))
         {
-            int randomIndex = GetRandomWeightedIndex(bigStructureWeights);
-            placementManager.PlaceObjectOnTheMap(position, bigStructuresPrefabs[randomIndex].prefab, CellType.Structure, width, height);
+            //int randomIndex = GetRandomWeightedIndex(bigStructureWeights);
+            placementManager.PlaceObjectOnTheMap(position, bigStructuresPrefabs[index].prefab, CellType.Structure, width, height);
             AudioPlayer.instance.PlayPlacementSound();
         }
     }
@@ -85,12 +85,12 @@ public class StructureManager : MonoBehaviour
     /// Place a special structure on the map
     /// </summary>
     /// <param name="position"></param>
-    public void PlaceSpecial(Vector3Int position)
+    public void PlaceSpecial(Vector3Int position, int index)
     {
         if (CheckPositionBeforePlacement(position))
         {
-            int randomIndex = GetRandomWeightedIndex(specialWeights);
-            placementManager.PlaceObjectOnTheMap(position, specialPrefabs[randomIndex].prefab, CellType.Structure);
+            //int randomIndex = GetRandomWeightedIndex(specialWeights);
+            placementManager.PlaceObjectOnTheMap(position, specialPrefabs[index].prefab, CellType.Structure);
             AudioPlayer.instance.PlayPlacementSound();
         }
     }

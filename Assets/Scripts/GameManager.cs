@@ -27,26 +27,28 @@ public class GameManager : MonoBehaviour
     {
         uiController.OnRoadPlacement += RoadPlacementHandler;
         uiController.OnHousePlacement += HousePlacementHandler;
-        uiController.OnSpecialPlacement += SpecialPlacementHandler;
-        uiController.OnBigStructurePlacement += BigStructurePlacementHandler;
+        uiController.OnShopPlacement += () => SpecialPlacementHandler(0);
+        uiController.OnBankPlacement += () => SpecialPlacementHandler(1);
+        uiController.OnFarmPlacement += () => BigStructurePlacementHandler(0);
+        uiController.OnHospitalPlacement += () => BigStructurePlacementHandler(1);
     }
 
     /// <summary>
     /// Handler for placing big structures
     /// </summary>
-    private void BigStructurePlacementHandler()
+    private void BigStructurePlacementHandler(int index)
     {
         ClearInputActions();
-        inputManager.OnMouseClick += structureManager.PlaceBigStructure;
+        inputManager.OnMouseClick += ctx => structureManager.PlaceBigStructure(ctx, index);
     }
 
     /// <summary>
     /// Handler for placing special structures
     /// </summary>
-    private void SpecialPlacementHandler()
+    private void SpecialPlacementHandler(int index)
     {
         ClearInputActions();
-        inputManager.OnMouseClick += structureManager.PlaceSpecial;
+        inputManager.OnMouseClick += ctx => structureManager.PlaceSpecial(ctx, index);
     }
 
     /// <summary>
